@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="pt-br" ng-app="site" ng-controller="siteCtrl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+    <link rel="stylesheet" href="node_modules/w3-css/3/w3.css">
+    <script src="https://kit.fontawesome.com/568a96625b.js"></script>
+    <script src="node_modules/angular/angular.min.js"></script>
+    <script src="js/escript.js"></script>
+
+    <title>Taskbook</title>
+</head>
+
+<body>
+
+    <section class="w3-container w3-panel ">
+        <form action="" class="w3-card">
+            <h3 class="w3-center w3-green"> Taskbook - Cadastro de Tarefa</h3>
+            <div class="w3-padding">
+                <label> Tarefa: </label>
+                <input type="text" ng-model="tarefa.task" class="w3-input" placeholder="Digite sua tarefa aqui" required
+                    autofocus>
+                <label> Estrelada: </label>
+                <input type="checkbox" ng-model="tarefa.star" class="w3-check" ng-init="tarefa.star = false"
+                ng-value="tarefa.star">
+                <br>
+                <label>Prioridade:</label>
+                <select ng-model="tarefa.priority" class="w3-select" required>
+                    <option value="">Selecione</option>
+                    <option value="1">Normal</option>
+                    <option value="2">Média</option>
+                    <option value="3">Alta</option>
+                </select>
+                <label>Grupo da tarefa:</label>
+                <input type="text" ng-model="tarefa.board" class="w3-select" placeholder="Digite o grupo da tarefa">
+                <input type="hidden" ng-model="tarefa.checked" ng-init="tarefa.checked = false"
+                    ng-value="tarefa.checked">
+                <div class="w3-panel">
+                    <div class="w3-right">
+                        <input type="reset" class="w3-button w3-yellow" value="Limpar">
+                        <input type="submit" class="w3-button w3-green" value="Salvar" ng-click="salvar(tarefa)">
+                    </div>
+                </div>
+        </form>
+
+    </section>
+    <section class="w3-container w3-panel">
+        <table class="w3-table w3-striped w3-bordered">
+            <caption class="w3-green">
+                <h3>Taskbook - Lista de tarefas</h3>
+            </caption>
+            <tr class="w3-green">
+                <th>Concluida</th>
+                <th>Tarefa</th>
+                <th>Status</th>
+                <th>Prioridade</th>
+                <th>Estrela</th>
+                <th>Grupo</th>
+            </tr>
+            <tr ng-repeat="t in tarefas">
+                <td>
+                    <input type="checkbox" ng-click="alterar(t, status)" ng-model="status" ng-init="status = t.checked"
+                        ng-value="status">
+                </td>
+                <td>
+                    {{t.task}}
+                </td>
+                <td>
+                    <div ng-if="t.status == 'start'">
+                        <i class="fas fa-play"></i>
+                    </div>
+                    <div ng-if="t.status == 'stop'">
+                        <i class="fas fa-stop"></i>
+                    </div>
+                    <div ng-if="t.status == 'paused'">
+                        <i class="fas fa-pause"></i>
+                    </div>
+                    <div ng-if="t.status == undefined">
+                        <i class="fas fa-stop"></i>
+                    </div>
+                </td>
+                <td>
+                    <div ng-if="t.priority == undefined" class="w3-transparent w3-padding w3-center"> Normal </div>
+                    <div ng-if="t.priority == 3" class="w3-transparent w3-padding w3-center"> Normal </div>
+                    <div ng-if="t.priority == 2" class="w3-yellow w3-padding w3-center"> Medio </div>
+                    <div ng-if="t.priority == 1" class="w3-red w3-padding w3-center"> Alto </div>
+                </td>
+                <td>
+                    <input type="checkbox"  class="w3-button w3-transparent" ng-click="estrelar(t, statusEstrela)" ng-model="statusEstrela">
+                        <div ng-if="t.star == true">
+                            <i class="w3-text-orange fas fa-star"></i>
+                        </div>
+                        <div ng-if="t.star != true">
+                            <i class="w3-text-gray fas fa-star"></i>
+                        </div>
+
+                </td>
+                <td>
+                    <div ng-if="t.board != undefined">
+                        {{t.board}}
+                    </div>
+                    <div ng-if="t.board == undefined">
+                        Meu Grupo
+                    </div>
+                </td>
+            </tr>
+        </table>
+
+
+</body>
+
+</html>
